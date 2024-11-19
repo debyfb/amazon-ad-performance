@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
-import seaborn as sns
-from scipy.stats import spearmanr, kruskal
 
 # Config
 st.set_page_config(
