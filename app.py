@@ -13,7 +13,6 @@ st.set_page_config(
 # Import Dataframe
 df = pd.read_csv('week_data_cleaned.csv')
 df = df.dropna()
-totalcount_df = pd.read_csv('wdc_total_count.csv')
 
 st.title("Analysis of Amazon Advertising Performance")
 st.markdown('''
@@ -24,7 +23,7 @@ st.markdown('''
             ''')
 
 
-tab1, tab2 = st.tabs(["Trend Analysis", "Search Query Performance"])
+tab1, tab2 = st.tabs(["Trend Analysis", "Search Query Analysis"])
 
 with tab1:
     st.subheader("Time Series")
@@ -135,36 +134,38 @@ with tab1:
 
     with st.expander("See Glossary"):
         st.write('''
-                 1. **:orange[Week]**: Week period in which data was collected.
-                 2. **:orange[Search query]**: Specific keywords or phrases used by customers when searching for products on Amazon.
-                 3. **:orange[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
-                 4. **:orange[Click total count]**: The total number of times customers clicked on the advertisement.
-                 5. **:orange[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
-                 6. **:orange[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
-                 7. **:orange[Click rate]**: The percentage of times the advertisement was clicked on relative to the number of times it was displayed.
-                 8. **:orange[Cart add rate]**: The percentage of times the advertisement resulted in a product being added to a customer's cart.
-                 9. **:orange[Purchase rate]**: The percentage of times the advertisement resulted in a customer making a purchase.
+                 1. **:red[Week]**: Week period in which data was collected.
+                 2. **:red[Search query]**: Specific keywords or phrases used by customers when searching for products on Amazon.
+                 3. **:red[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
+                 4. **:red[Click total count]**: The total number of times customers clicked on the advertisement.
+                 5. **:red[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
+                 6. **:red[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
+                 7. **:red[Click rate]**: The percentage of times the advertisement was clicked on relative to the number of times it was displayed.
+                 8. **:red[Cart add rate]**: The percentage of times the advertisement resulted in a product being added to a customer's cart.
+                 9. **:red[Purchase rate]**: The percentage of times the advertisement resulted in a customer making a purchase.
                  ''')
 
-with tab2:      
+with tab2:
+    st.subheader("Search Query Performance")
     all_weeks = sorted(df['week'].unique().tolist())
     week_options = ['All'] + all_weeks
 
     col1, col2 = st.columns([2, 2])
 
     with col1:
-        selected_week = st.selectbox('Select Week:', week_options)
+        selected_week = st.selectbox('Select Week:', week_options, key='week_select_1')
 
     with col2:
-        search_query = st.text_input("Search in search_query:", "")
+        search_query = st.text_input("Search in **search query**:", "")
 
     column_names = {
         'week': 'Week',
+        'search_query': 'Search Query',
         'imp_total_count': 'Impression Count',
         'clk_total_count': 'Click Count',
-        'art_total_count': 'Cart Add Count',
+        'cart_total_count': 'Cart Add Count',
         'pur_total_count': 'Purchase Count'
-            }
+    }
     selected_columns = ['week','search_query','imp_total_count','clk_total_count','cart_total_count','pur_total_count']
 
     if selected_week == 'All':
@@ -177,6 +178,10 @@ with tab2:
             filtered_df['search_query'].str.contains(search_query, case=False, na=False)
         ]
 
+    total_impressions = filtered_df['imp_total_count'].sum()
+    total_cart_adds = filtered_df['cart_total_count'].sum()
+    total_purchases = filtered_df['pur_total_count'].sum()
+
     filtered_df = filtered_df.rename(columns=column_names)
 
     st.write(f"Showing {len(filtered_df)} rows")
@@ -187,12 +192,66 @@ with tab2:
         height=400
     )
 
+    col1a, col2a, col3a = st.columns(3)
+    with col1a:
+        st.markdown("**Total of Impression Count**")
+        st.markdown(f"**:orange[{total_impressions:,}]**")
+    with col2a:
+        st.markdown("**Total of Cart Add Count**")
+        st.markdown(f":orange[**{total_cart_adds:,}**]")
+    with col3a:
+        st.markdown("**Total of Purchase Count**")
+        st.markdown(f":orange[**{total_purchases:,}**]")
+
+    st.subheader("Identifying Popular Search Query")
+
+    # Add a second week selection that defaults to the first selected week
+    col1b, col2b = st.columns([2, 2])
+    
+    with col1b:
+        selected_week2 = st.selectbox('Select Week:', week_options, index=week_options.index(selected_week), key='week_select_2')
+
+    with col2b:
+        search_query2 = st.text_input("Search in *search query*:", key='search_query_2')
+
+    column_names2 = {
+        'week': 'Week',
+        'search_query': 'Search Query',
+        'search_quey_volume': 'Search Query Volume'
+    }
+
+    # Create filtered_df2 based on selected_week2
+    if selected_week2 == 'All':
+        filtered_df2 = df[['week', 'search_query', 'search_quey_volume']]
+    else:
+        filtered_df2 = df[df['week'] == selected_week2][['week', 'search_query', 'search_quey_volume']]
+
+    if search_query2:
+        filtered_df2 = filtered_df2[
+            filtered_df2['search_query'].str.contains(search_query2, case=False, na=False)
+        ]
+
+    total_search_query_volume = filtered_df2['search_quey_volume'].sum()
+
+    filtered_df2 = filtered_df2.rename(columns=column_names2)
+
+    st.write(f"Showing {len(filtered_df2)} rows")
+
+    st.dataframe(
+        filtered_df2,
+        width=900,
+        height=400
+    )
+
+    st.markdown("**Total of Search Query Volume**")
+    st.markdown(f"**:orange[{total_search_query_volume:,}]**")
+
     with st.expander("See Glossary"):        
         st.write('''
-                 1. **:orange[Week]**: week period in which data was collected.
-                 2. **:orange[Search Query]**: specific keywords or phrases used by customers when searching for products on Amazon.
-                 3. **:orange[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
-                 4. **:orange[Click total count]**: The total number of times customers clicked on the advertisement.
-                 5. **:orange[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
-                 6. **:orange[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
+                 1. **:red[Week]**: week period in which data was collected.
+                 2. **:red[Search Query]**: specific keywords or phrases used by customers when searching for products on Amazon.
+                 3. **:red[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
+                 4. **:red[Click total count]**: The total number of times customers clicked on the advertisement.
+                 5. **:red[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
+                 6. **:red[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
                  ''')
