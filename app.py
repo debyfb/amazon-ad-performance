@@ -249,9 +249,10 @@ with tab2:
     with st.expander("See Glossary"):        
         st.write('''
                  1. **:red[Week]**: week period in which data was collected.
-                 2. **:red[Search Query]**: specific keywords or phrases used by customers when searching for products on Amazon.
-                 3. **:red[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
-                 4. **:red[Click total count]**: The total number of times customers clicked on the advertisement.
-                 5. **:red[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
-                 6. **:red[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
+                 2. **:red[Search Query]**: Specific keywords or phrases used by customers when searching for products on Amazon.
+                 3. **:red[Search Query Volume]**: The number of times a particular search query was used by customers during the given time period.
+                 4. **:red[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
+                 5. **:red[Click total count]**: The total number of times customers clicked on the advertisement.
+                 6. **:red[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
+                 7. **:red[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
                  ''')
