@@ -15,9 +15,14 @@ df = pd.read_csv('week_data_cleaned_2.csv')
 df = df.dropna()
 totalcount_df = pd.read_csv('wdc_total_count.csv')
 
-
-
 st.title("Analysis of Amazon Advertising Performance")
+st.markdown('''
+           The Analysis of Amazon Advertising Performance Metrics offers a detailed analysis of the 
+           efficiency and impact of advertising campaigns conducted by sellers on Amazon. By analyzing 
+           Amazon advertising performance metrics, users can gain valuable insights into the effectiveness 
+           of advertising strategy.
+            ''')
+
 
 tab1, tab2 = st.tabs(["Trend Analysis", "Search Query Performance"])
 
@@ -60,20 +65,32 @@ with tab1:
         line_chart = alt.Chart(combined_data).mark_line().encode(
             x=alt.X('week:O', title="Week", sort=df['week_number'].unique().tolist()),
             y=alt.Y('Value:Q', title="Value"),
-            color=alt.Color('Metric:N', title="Metric"),
+            color=alt.Color('Metric:N', title="Metric", scale=alt.Scale(scheme='darkmulti'),),
             tooltip=[
                 alt.Tooltip('week:O', title='Week'),
                 alt.Tooltip('Metric:N', title="Metric"),
                 alt.Tooltip('Value:Q', title="Value")
             ]
-        ).configure_range(
-            category={'scheme': 'darkmulti'}
-        ).properties(
-            width=900,
-            height=600
         ).interactive()
 
-        st.altair_chart(line_chart)
+        points = alt.Chart(combined_data).mark_point(size=60, filled=True).encode(
+            x=alt.X('week:O'),
+            y=alt.Y('Value:Q'),
+            color=alt.Color('Metric:N', title="Metric", scale=alt.Scale(scheme='darkmulti'),),  # Match the line color
+            tooltip=[
+                alt.Tooltip('week:O', title='Week'),
+                alt.Tooltip('Metric:N', title="Metric"),
+                alt.Tooltip('Value:Q', title="Value")
+            ]
+        )
+
+        # Combine the charts into a layered chart
+        line_chart_with_dots = alt.layer(line_chart, points).properties(
+            width=900,
+            height=600
+        )
+
+        st.altair_chart(line_chart_with_dots)
             
     st.subheader("Relationship Between Click Rate, Purchase Rate, and Cart Add Rate")
 
@@ -120,11 +137,11 @@ with tab1:
         st.write('''
                  1. **:orange[Week]**: Week period in which data was collected.
                  2. **:orange[Search query]**: Specific keywords or phrases used by customers when searching for products on Amazon.
-                 3. **:orange[Impression total count]**: Impression total count: The total number of times the advertisement was displayed to customers in search results or on product pages.
-                 4. **:orange[Click total count]**: Click total count: The total number of times customers clicked on the advertisement.
+                 3. **:orange[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
+                 4. **:orange[Click total count]**: The total number of times customers clicked on the advertisement.
                  5. **:orange[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
                  6. **:orange[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
-                 7. **:orange[Click rate]**: Click rate: The percentage of times the advertisement was clicked on relative to the number of times it was displayed.
+                 7. **:orange[Click rate]**: The percentage of times the advertisement was clicked on relative to the number of times it was displayed.
                  8. **:orange[Cart add rate]**: The percentage of times the advertisement resulted in a product being added to a customer's cart.
                  9. **:orange[Purchase rate]**: The percentage of times the advertisement resulted in a customer making a purchase.
                  ''')
@@ -174,8 +191,8 @@ with tab2:
         st.write('''
                  1. **:orange[Week]**: week period in which data was collected.
                  2. **:orange[Search Query]**: specific keywords or phrases used by customers when searching for products on Amazon.
-                 3. **:orange[Impression total count]**: Impression total count: The total number of times the advertisement was displayed to customers in search results or on product pages.
-                 4. **:orange[Click total count]**: Click total count: The total number of times customers clicked on the advertisement.
+                 3. **:orange[Impression total count]**: The total number of times the advertisement was displayed to customers in search results or on product pages.
+                 4. **:orange[Click total count]**: The total number of times customers clicked on the advertisement.
                  5. **:orange[Cart total count]**: The total number of times customers added a product to their cart after clicking on the advertisement.
                  6. **:orange[Purchase total count]**: The total number of times customers made a purchase after clicking on the advertisement.
                  ''')
