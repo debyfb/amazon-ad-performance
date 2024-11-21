@@ -16,9 +16,9 @@ df = df.dropna()
 
 st.title("Analysis of Amazon Advertising Performance")
 st.markdown('''
-            The Amazon Advertising Performance Metrics week dataset provides a comprehensive overview 
-            of the effectiveness of advertising campaigns run by sellers on Amazon. By analyzing Amazon 
-            advertising performance metrics, we can gain valuable insights into the effectiveness 
+            Analysis of Amazon Advertising Performance Metrics offers a detailed analysis of the 
+            efficiency and impact of advertising campaigns conducted by sellers on Amazon. By analyzing 
+            Amazon advertising performance metrics, users can gain valuable insights into the effectiveness 
             of advertising strategy.
             ''')
 
