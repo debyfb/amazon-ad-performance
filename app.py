@@ -11,16 +11,16 @@ st.set_page_config(
 )
 
 # Import Dataframe
-df = pd.read_csv('week_data_cleaned_2.csv')
+df = pd.read_csv('week_data_cleaned.csv')
 df = df.dropna()
 totalcount_df = pd.read_csv('wdc_total_count.csv')
 
 st.title("Analysis of Amazon Advertising Performance")
 st.markdown('''
-           The Analysis of Amazon Advertising Performance Metrics offers a detailed analysis of the 
-           efficiency and impact of advertising campaigns conducted by sellers on Amazon. By analyzing 
-           Amazon advertising performance metrics, users can gain valuable insights into the effectiveness 
-           of advertising strategy.
+            The Amazon Advertising Performance Metrics week dataset provides a comprehensive overview 
+            of the effectiveness of advertising campaigns run by sellers on Amazon. By analyzing Amazon 
+            advertising performance metrics, we can gain valuable insights into the effectiveness 
+            of advertising strategy.
             ''')
 
 
