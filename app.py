@@ -156,7 +156,7 @@ with tab2:
         selected_week = st.selectbox('Select Week:', week_options, key='week_select_1')
 
     with col2:
-        search_query = st.text_input("Search in **search query**:", "")
+        search_query = st.text_input("Search in *search query*:", "")
 
     column_names = {
         'week': 'Week',
