@@ -5,7 +5,7 @@ import altair as alt
 
 # Config
 st.set_page_config(
-    page_title="Analysis of Amazon Advertising Performance",
+    page_title="Amazon Advertising Performance",
     layout="wide",
     page_icon=":chart_with_upwards_trend:"
 )
@@ -14,12 +14,12 @@ st.set_page_config(
 df = pd.read_csv('week_data_cleaned.csv')
 df = df.dropna()
 
-st.title("Analysis of Amazon Advertising Performance")
+st.title("Amazon Advertising Performance")
 st.markdown('''
-            Analysis of Amazon Advertising Performance Metrics offers a detailed analysis of the 
-            efficiency and impact of advertising campaigns conducted by sellers on Amazon. By analyzing 
-            Amazon advertising performance metrics, users can gain valuable insights into the effectiveness 
-            of advertising strategy.
+            The Amazon Advertising Performance Metrics offers a interactive charts and graphs of the 
+             of advertising campaigns conducted by sellers on Amazon. By analyzing Amazon advertising 
+             performance metrics, users can gain valuable insights into the effectiveness of advertising 
+             strategy.
             ''')
 
 
