@@ -16,10 +16,9 @@ df = df.dropna()
 
 st.title("Amazon Advertising Performance")
 st.markdown('''
-            The Amazon Advertising Performance Metrics offers a interactive charts and graphs of the 
-             of advertising campaigns conducted by sellers on Amazon. By analyzing Amazon advertising 
-             performance metrics, users can gain valuable insights into the effectiveness of advertising 
-             strategy.
+            The Amazon Advertising Performance Metrics Dashboard offers interactive charts and graphs of the 
+             advertising campaigns conducted by sellers on Amazon. By analyzing Amazon advertising performance 
+             metrics, users can gain valuable insights into the effectiveness of advertising strategy.
             ''')
 
 
